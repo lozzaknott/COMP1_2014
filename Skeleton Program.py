@@ -174,8 +174,20 @@ def DisplayRecentScores(RecentScores):
   input()
   print()
 
-def UpdateRecentScores(RecentScores, Score):
+def UpdateRecentScores(RecentScores, Score, YES, NO):
+  AddScore = input("Do you want to add your score to the high score table? \n\
+(enter y or n)\n\
+(enter Y or N)\n\
+(enter Yes or No)\n\
+(enter yes or no)\n ")
+  if AddScore in (NO):
+    DisplayMenu()
+  else:
+    pass
   PlayerName = GetPlayerName()
+  while PlayerName in ['']:
+    print("You must enter something for your name!")
+    PlayerName = input('Please enter your name: ')
   FoundSpace = False
   Count = 1
   while (not FoundSpace) and (Count <= NO_OF_RECENT_SCORES):
@@ -214,7 +226,7 @@ def PlayGame(Deck, RecentScores, YES, NO):
       GameOver = True
   if GameOver:
     DisplayEndOfGameMessage(NoOfCardsTurnedOver - 2)
-    UpdateRecentScores(RecentScores, NoOfCardsTurnedOver - 2)
+    UpdateRecentScores(RecentScores, NoOfCardsTurnedOver - 2, YES, NO)
   else:
     DisplayEndOfGameMessage(51)
     UpdateRecentScores(RecentScores, 51)

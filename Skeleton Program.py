@@ -8,7 +8,8 @@
 import random
 
 NO_OF_RECENT_SCORES = 3
-
+YES = ['y','Y','Yes','yes']
+NO = ['n','N','Yes','yes']
 class TCard():
   def __init__(self):
     self.Suit = 0
@@ -78,6 +79,8 @@ def DisplayMenu():
 
 def GetMenuChoice():
   Choice = input()
+  if Choice in ['q', 'Q', 'Quit']:
+    Choice = 'q'
   print()
   return Choice
 
@@ -134,7 +137,11 @@ def GetPlayerName():
   return PlayerName
 
 def GetChoiceFromUser():
-  Choice = input('Do you think the next card will be higher than the last card (enter y or n)? ')
+  Choice = input('Do you think the next card will be higher than the last card \n\
+(enter y or n)\n\
+(enter Y or N)\n\
+(enter Yes or No)\n\
+(enter yes or no)\n? ')
   return Choice
 
 def DisplayEndOfGameMessage(Score):
@@ -184,7 +191,7 @@ def UpdateRecentScores(RecentScores, Score):
   RecentScores[Count].Name = PlayerName
   RecentScores[Count].Score = Score
 
-def PlayGame(Deck, RecentScores):
+def PlayGame(Deck, RecentScores, YES, NO):
   LastCard = TCard()
   NextCard = TCard()
   GameOver = False
@@ -194,12 +201,12 @@ def PlayGame(Deck, RecentScores):
   while (NoOfCardsTurnedOver < 52) and (not GameOver):
     GetCard(NextCard, Deck, NoOfCardsTurnedOver)
     Choice = ''
-    while (Choice != 'y') and (Choice != 'n'):
+    while (Choice not in (YES)) and (Choice not in (NO)):
       Choice = GetChoiceFromUser()
     DisplayCard(NextCard)
     NoOfCardsTurnedOver = NoOfCardsTurnedOver + 1
     Higher = IsNextCardHigher(LastCard, NextCard)
-    if (Higher and Choice == 'y') or (not Higher and Choice == 'n'):
+    if (Higher and Choice in (YES)) or (not Higher and Choice in (NO)):
       DisplayCorrectGuessMessage(NoOfCardsTurnedOver - 1)
       LastCard.Rank = NextCard.Rank
       LastCard.Suit = NextCard.Suit
@@ -224,10 +231,10 @@ if __name__ == '__main__':
     if Choice == '1':
       LoadDeck(Deck)
       ShuffleDeck(Deck)
-      PlayGame(Deck, RecentScores)
+      PlayGame(Deck, RecentScores, YES, NO)
     elif Choice == '2':
       LoadDeck(Deck)
-      PlayGame(Deck, RecentScores)
+      PlayGame(Deck, RecentScores, YES, NO)
     elif Choice == '3':
       DisplayRecentScores(RecentScores)
     elif Choice == '4':
